@@ -1,13 +1,12 @@
-const express = require('express')
-const app = express()
-const posts = require('./posts')
+const jsonServer = require('json-server')
 
-app.get('/posts', (req, res) => {
-    res.json(posts)
+const server = jsonServer.create()
+
+const router = jsonServer.router('db.json')
+const middlewares = jsonServer.defaults()
+ 
+server.use(middlewares)
+server.use('/', router)
+server.listen(process.env.PORT || 5000, () => {
+  console.log('JSON Server is running')
 })
-
-app.get('/', (req, res) => {
-    res.send('Api is running.')
-})
-
-app.listen(process.env.PORT || 3000, () => console.log("Server is running."))
